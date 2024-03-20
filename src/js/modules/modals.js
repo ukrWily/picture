@@ -55,8 +55,19 @@ const modals = () => {
 
   function showModalByTime(selector, time) {
     setTimeout(function () {
-      document.querySelector(selector).style.display = "block";
-      document.body.style.overflow = "hidden";
+      //todo`````перевіряємо, чи не заповнюється вже якась форма
+      let display;
+
+      document.querySelectorAll("[data-modal]").forEach((item) => {
+        if (getComputedStyle(item).display !== "none") {
+          display = "block";
+        }
+      });
+
+      if (!display) {
+        document.querySelector(selector).style.display = "block";
+        document.body.style.overflow = "hidden";
+      }
     }, time);
   }
 
@@ -83,7 +94,7 @@ const modals = () => {
     ".popup-consultation .popup-close"
   );
 
-  // showModalByTime(".popup_engineer", 50000);
+  showModalByTime(".popup-consultation", 5000);
 };
 
 export default modals;
