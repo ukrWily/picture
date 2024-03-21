@@ -11,12 +11,16 @@ const forms = () => {
     success: "Thanks. We will call you.",
     failure: "Something going wrong. :(",
     spinner: "assets/img/spinner.gif",
-    ok: "assets/img/ok.gif",
-    fail: "assets/img/fail.gif",
+    ok: "assets/img/ok.png",
+    fail: "assets/img/fail.png",
+  };
+
+  const path = {
+    designer: "assets/server.php",
+    question: "assets/question.php",
   };
   /** Making request */
   const postData = async (url, data) => {
-    document.querySelector(".status").textContent = message.loading;
     let res = await fetch(url, {
       method: "POST",
       body: data,
@@ -44,25 +48,40 @@ const forms = () => {
       setTimeout(() => {
         item.style.display = "none";
       }, 400);
-
+      // <{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>
+      /**
+       *  create and show message during loading
+       */
       let statusImg = document.createElement("img");
       statusImg.setAttribute("src", message.spinner);
-      statusImg.classList("animated", "fadeInUp");
+      statusImg.classList.add("animated", "fadeInUp");
       statusMessage.appendChild(statusImg);
 
+      let textMessage = document.createElement("div");
+      textMessage.textContent = message.loading;
+      statusMessage.appendChild(textMessage);
+      // <{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<{<>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>}>
+      /**
+       * pick up dates from inputs to formData
+       */
       const formData = new FormData(item);
-      if (item.getAttribute("data-calc") === "end") {
-        for (let key in state) {
-          formData.append(key, state[key]);
-        }
-      }
+      let api;
+      /** searching closest element with required parameters */
+      item.closest(".popup-design")
+        ? (api = path.designer)
+        : (api = path.question);
+      console.log(api);
 
-      postData("assets/server.php", formData)
+      postData(api, formData)
         .then((res) => {
           console.log(res);
-          statusMessage.textContent = message.success;
+          statusImg.setAttribute("src", message.ok);
+          textMessage.textContent = message.success;
         })
-        .catch(() => (statusMessage.textContent = message.failure))
+        .catch(() => {
+          statusImg.setAttribute("src", message.fail);
+          textMessage.textContent = message.failure;
+        })
         .finally(() => {
           clearInputs(); //todo clear inputs
           setTimeout(() => {

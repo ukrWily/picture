@@ -41,9 +41,7 @@ const sliders = (slides, dir, prev, next) => {
       items[slideIndex - 1].classList.remove("slideInRight");
       items[slideIndex - 1].classList.add("slideInLeft");
     });
-  } catch (error) {
-    console.error(error);
-  }
+  } catch (error) {}
 
   function activateAnimation() {
     //* перевіряємо напрям сладера
