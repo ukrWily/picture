@@ -45,7 +45,10 @@ const forms = () => {
         item.style.display = "none";
       }, 400);
 
-      let statusImg;
+      let statusImg = document.createElement("img");
+      statusImg.setAttribute("src", message.spinner);
+      statusImg.classList("animated", "fadeInUp");
+      statusMessage.appendChild(statusImg);
 
       const formData = new FormData(item);
       if (item.getAttribute("data-calc") === "end") {
