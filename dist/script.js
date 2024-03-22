@@ -16,7 +16,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const forms = () => {
   const form = document.querySelectorAll("form"),
-    inputs = document.querySelectorAll("input");
+    inputs = document.querySelectorAll("input"),
+    upload = document.querySelectorAll('[name="upload"]');
 
   // checkNumInputs('input[name="user_phone"]');
 
@@ -47,6 +48,15 @@ const forms = () => {
       item.value = "";
     });
   };
+  upload.forEach(item => {
+    item.addEventListener("input", () => {
+      console.log(item.files[0]);
+      let dots;
+      item.files[0].name.split(".")[0].length > 5 ? dots = "..." : dots = ".";
+      const name = item.files[0].name.split(".")[0].substring(0, 6) + dots + item.files[0].name.split(".")[1];
+      item.previousElementSibling.textContent = name;
+    });
+  });
   form.forEach(item => {
     item.addEventListener("submit", e => {
       e.preventDefault();
@@ -75,7 +85,7 @@ const forms = () => {
       const formData = new FormData(item);
       let api;
       /** searching closest element with required parameters */
-      item.closest(".popup-design") ? api = path.designer : api = path.question;
+      item.closest(".popup-design") || item.classList.contains("calc_form") ? api = path.designer : api = path.question;
       console.log(api);
       postData(api, formData).then(res => {
         console.log(res);
@@ -88,6 +98,9 @@ const forms = () => {
         clearInputs(); //todo clear inputs
         setTimeout(() => {
           statusMessage.remove(); //todo remove message after 5s
+          item.style.display = "block";
+          item.classList.remove("fadeOutUp");
+          item.classList.add("fadeInUp");
         }, 5000);
       });
     });
