@@ -225,7 +225,7 @@ h4 {
 }
 .main .file_upload > button {
   float: right;
-  width: 8em;
+  width: 9em;
   /* example */
 
   height: 100%;
@@ -560,7 +560,7 @@ h4 {
 }
 .calc .file_upload > button {
   float: right;
-  width: 8em;
+  width: 9em;
   /* example */
 
   height: 100%;
@@ -1156,7 +1156,7 @@ h4 {
 }
 .popup-design .file_upload > button {
   float: right;
-  width: 8em;
+  width: 9em;
   /* example */
 
   height: 100%;
@@ -1183,6 +1183,7 @@ h4 {
   cursor: pointer;
 }
 .popup-design .file_upload > button {
+  /* width: 9em; */
   transition: background 0.2s;
   border-radius: 50px;
   overflow: hidden;
@@ -1192,7 +1193,7 @@ h4 {
   font-size: 1.5rem;
   color: #c51abb;
   border: 2px dashed #c51abb;
-  padding: 1.5rem;
+  padding: 1rem;
 }
 .popup-design .file_upload > button:before {
   content: '';
@@ -1724,4 +1725,20 @@ h4 {
     padding: 3rem 3rem;
     width: 25rem;
   }
+}
+
+.file_upload{
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.status {
+  text-align: center;
+}
+
+.file_upload:hover button {
+  box-shadow: 0 1px 1px #000;
 }
