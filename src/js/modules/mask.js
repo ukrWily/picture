@@ -20,7 +20,7 @@ const mask = (selector) => {
   };
 
   function createMask(event) {
-    console.log(event);
+    // console.log(event);
     let matrix = "+38 (___) ___ __ __",
       i = 0,
       def = matrix.replace(/\D/g, ""),
