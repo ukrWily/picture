@@ -2,6 +2,42 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/calc.js":
+/*!********************************!*\
+  !*** ./src/js/modules/calc.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const calc = (size, material, options, promocode, result) => {
+  const sizeBlock = document.querySelector(size),
+    materialBlock = document.querySelector(material),
+    optionsBlock = document.querySelector(options),
+    promocodeBlock = document.querySelector(promocode),
+    resultBlock = document.querySelector(result);
+  let sum = 0;
+  const calcFunc = () => {
+    sum = Math.round(+sizeBlock.value * +materialBlock.value + +optionsBlock.value);
+    if (sizeBlock.value == "" || materialBlock.value == "") {
+      resultBlock.textContent = "Please choiсe size and material";
+    } else if (promocodeBlock.value.trim() === "IWANTPOPART") {
+      resultBlock.textContent = Math.round(sum * 0.7);
+    } else {
+      resultBlock.textContent = sum;
+    }
+  };
+  sizeBlock.addEventListener("change", calcFunc);
+  materialBlock.addEventListener("change", calcFunc);
+  optionsBlock.addEventListener("change", calcFunc);
+  promocodeBlock.addEventListener("input", calcFunc);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (calc);
+
+/***/ }),
+
 /***/ "./src/js/modules/checkTextInputs.js":
 /*!*******************************************!*\
   !*** ./src/js/modules/checkTextInputs.js ***!
@@ -344,18 +380,32 @@ const showMoreStyles = (trigger, wrapper) => {
   //   btn.remove();
   // });
 
-  btn.addEventListener("click", () => {
-    (0,_services_requests__WEBPACK_IMPORTED_MODULE_0__.getResource)("http://localhost:3000/styles").then(res => createCards(res)).catch(error => console.log(error));
+  btn.addEventListener("click", function () {
+    (0,_services_requests__WEBPACK_IMPORTED_MODULE_0__.getResource)("http://localhost:3000/styles").then(res => createCards(res)).catch(error => {
+      const er = document.createElement("div");
+      er.textContent = error.message;
+      er.style.textAlign = "center";
+      er.style.color = "red";
+      er.style.fontSize = "30px";
+      er.style.textShadow = "0 2.5px 2.5px black";
+      er.style.fontWeight = 700;
+      document.querySelector(wrapper).appendChild(er);
+    });
+    this.remove();
   });
   function createCards(response) {
-    response.forEach(item => {
-      let card = document.querySelector("div");
+    response.forEach(({
+      src,
+      title,
+      link
+    }) => {
+      let card = document.createElement("div");
       card.classList.add("animated", "fadeInUp", "col-sm-3", "col-sm-offset-0", "col-xs-10", "col-xs-offset-1");
       card.innerHTML = `
       	<div class="styles-block">
-          <img src=${item.src} alt="style">
-          <h4>${item.title}</h4>
-          <a href=${item.link}>Подробнее</a>
+          <img src=${src} alt="style">
+          <h4>${title}</h4>
+          <a href=${link}>Подробнее</a>
         </div>
       `;
       document.querySelector(wrapper).appendChild(card);
@@ -554,6 +604,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_mask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/mask */ "./src/js/modules/mask.js");
 /* harmony import */ var _modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/checkTextInputs */ "./src/js/modules/checkTextInputs.js");
 /* harmony import */ var _modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/showMoreStyles */ "./src/js/modules/showMoreStyles.js");
+/* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
+
 
 
 
@@ -571,6 +623,7 @@ window.addEventListener("DOMContentLoaded", () => {
   (0,_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="name"]');
   (0,_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="message"]');
   (0,_modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__["default"])(".button-styles", "#styles .row");
+  (0,_modules_calc__WEBPACK_IMPORTED_MODULE_6__["default"])("#size", "#material", "#options", ".promocode", ".calc-price");
 });
 })();
 

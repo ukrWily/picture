@@ -21,15 +21,26 @@ const showMoreStyles = (trigger, wrapper) => {
   //   btn.remove();
   // });
 
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", function () {
     getResource("http://localhost:3000/styles")
       .then((res) => createCards(res))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        const er = document.createElement("div");
+        er.textContent = error.message;
+        er.style.textAlign = "center";
+        er.style.color = "red";
+        er.style.fontSize = "30px";
+        er.style.textShadow = "0 2.5px 2.5px black";
+        er.style.fontWeight = 700;
+        document.querySelector(wrapper).appendChild(er);
+      });
+
+    this.remove();
   });
 
   function createCards(response) {
-    response.forEach((item) => {
-      let card = document.querySelector("div");
+    response.forEach(({ src, title, link }) => {
+      let card = document.createElement("div");
 
       card.classList.add(
         "animated",
@@ -42,9 +53,9 @@ const showMoreStyles = (trigger, wrapper) => {
 
       card.innerHTML = `
       	<div class="styles-block">
-          <img src=${item.src} alt="style">
-          <h4>${item.title}</h4>
-          <a href=${item.link}>Подробнее</a>
+          <img src=${src} alt="style">
+          <h4>${title}</h4>
+          <a href=${link}>Подробнее</a>
         </div>
       `;
       document.querySelector(wrapper).appendChild(card);
